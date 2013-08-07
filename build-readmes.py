@@ -21,22 +21,17 @@ class BotoMarkdownBuilder():
         self.title = "# %s\n" % " ".join(filepath.split("/")[-1].split(".")[0].split("_"))
 
     def add_description(self, filepath):
-        lines = []
-        for line in checker.get_description(file):
-            lines.append(line.lstrip('# '))
-        self.description = "\n".join(lines)
+        self.description = "\n".join([line.lstrip('# ') for line in checker.get_description(file)])
 
     def add_code_example(self, filepath):
         description_lines = checker.get_description(file)
         with open(filepath, 'rb') as lines:
             code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines and not re.match("#\s[d|D]escription", line)]
-            code.insert(0, "\n```python")
-            code.append("```")
-            self.code = "\n".join(code)
+            self.code = "```python\n%s\n```" % "\n".join(code)
 
     def build(self):
         with open(self.filename, 'wb') as fh:
-            fh.write("\n".join([self.title, self.description, self.code]))
+            fh.write("%s\n%s\n\n%s" % (self.title, self.description, self.code))
 
 
 if __name__ == "__main__":
