@@ -1,5 +1,5 @@
 """
-A hacky script to build up a markdown file from python source code
+A script to build up a markdown file from python source code
 """
 
 import checker
