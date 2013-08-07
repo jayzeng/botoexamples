@@ -29,9 +29,17 @@ class BotoMarkdownBuilder(object):
             code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines and not re.match("#\s[d|D]escription", line)]
             self.code = "```python\n%s\n```" % "\n".join(code)
 
-    def build(self):
+    def _build(self):
         with open(self.filename, 'wb') as fh:
             fh.write("%s\n%s\n\n%s" % (self.title, self.description, self.code))
+
+    @classmethod
+    def build(cls, filename, file):
+        inst = cls(filename)
+        inst.add_title(file)
+        inst.add_description(file)
+        inst.add_code_example(file)
+        inst._build()
 
 
 if __name__ == "__main__":
@@ -40,8 +48,4 @@ if __name__ == "__main__":
         for file in checker.walk_tree(folder):
             print "processing %s" % file
             markdown_filename = "%s.md" % file.rstrip(".py")
-            b = BotoMarkdownBuilder(markdown_filename)
-            b.add_title(file)
-            b.add_description(file)
-            b.add_code_example(file)
-            b.build()
+            BotoMarkdownBuilder.build(markdown_filename, file)
