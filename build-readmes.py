@@ -7,35 +7,37 @@ import os
 import re
 
 
-class BotoMarkdown():
+class BotoMarkdownBuilder():
     """
         a wrapper around a file to build the boto markdown from a python file
     """
     def __init__(self, filename):
-        self.fh = open(filename, 'w')
+        self.filename = filename
+        self.code = ""
+        self.title = ""
+        self.description = ""
 
-    def build_title(self, filepath):
-        self.fh.write("# %s\n" % " ".join(filepath.split("/")[-1].split(".")[0].split("_")))
+    def add_title(self, filepath):
+        self.title = "# %s\n" % " ".join(filepath.split("/")[-1].split(".")[0].split("_"))
 
-    def build_description(self, filepath):
+    def add_description(self, filepath):
         lines = []
         for line in checker.get_description(file):
             lines.append(line.lstrip('# '))
-        self.fh.write("\n".join(lines))
+        self.description = "\n".join(lines)
 
-    def build_code_example(self, filepath):
+    def add_code_example(self, filepath):
         description_lines = checker.get_description(file)
         with open(filepath, 'rb') as lines:
             code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines and not re.match("#\s[d|D]escription", line)]
             code.insert(0, "\n```python")
             code.append("```")
-            self.fh.write("\n".join(code))
+            self.code =  "\n".join(code)
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, type, value, traceback):
-        self.fh.close()
+    def build(self):
+        fh = open(self.filename, 'w')
+        fh.write("\n".join([self.title, self.description, self.code]))
+        fh.close()
 
 
 if __name__ == "__main__":
@@ -45,7 +47,8 @@ if __name__ == "__main__":
             print "processing %s" % file
             markdown_filename = "%s.md" % file.rstrip(".py")
             md_file = open(markdown_filename, 'w')
-            with BotoMarkdown(markdown_filename) as b:
-                b.build_title(file)
-                b.build_description(file)
-                b.build_code_example(file)
+            b = BotoMarkdownBuilder(markdown_filename)
+            b.add_title(file)
+            b.add_description(file)
+            b.add_code_example(file)
+            b.build()
