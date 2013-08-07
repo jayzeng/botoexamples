@@ -1,5 +1,10 @@
+"""
+A hacky script to build up a markdown file from python source code
+"""
+
 import checker
 import os
+import re
 
 
 class BotoMarkdown():
@@ -21,7 +26,7 @@ class BotoMarkdown():
     def build_code_example(self, filepath):
         description_lines = checker.get_description(file)
         with open(filepath, 'rb') as lines:
-            code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines]
+            code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines and not re.match("#\s[d|D]escription", line)]
             code.insert(0, "\n```python")
             code.append("```")
             self.fh.write("\n".join(code))
