@@ -1,6 +1,7 @@
 import os
 import re
 
+
 def walk_tree(folder_name):
     """
     Retrieve all python files
@@ -23,10 +24,7 @@ def get_description(file):
 
 
 def get_descriptions(folder):
-    descriptions = []
-    for file in walk_tree(folder):
-        descriptions.append(get_description(file))
-    return descriptions
+    return [get_description(file) for file in walk_tree(folder)]
 
 
 if __name__ == "__main__":
