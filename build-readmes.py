@@ -7,7 +7,7 @@ import os
 import re
 
 
-class BotoMarkdownBuilder():
+class BotoMarkdownBuilder(object):
     """
         a wrapper around a file to build the boto markdown from a python file
     """
