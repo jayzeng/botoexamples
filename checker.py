@@ -2,6 +2,14 @@ import os
 import re
 
 
+# gets the description from our python source files
+# typically in the format:
+#     # Description:
+#     # This thing does this
+#     # it does that
+DESCRIPTION_REGEX = '#\s[D\d]escription:(\n#(.*))+\n'
+
+
 def walk_tree(folder_name):
     """
     Retrieve all python files
@@ -11,7 +19,7 @@ def walk_tree(folder_name):
 
 
 def get_description(file):
-    desc_regex = re.compile('#\s[D\d]escription:(\n#(.*))+\n')
+    desc_regex = re.compile(DESCRIPTION_REGEX)
 
     with open(file, 'rb') as python_reader:
         contents = python_reader.read(50000)
