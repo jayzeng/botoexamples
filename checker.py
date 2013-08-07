@@ -9,7 +9,8 @@ def walk_tree(folder_name):
         return (path + '/' + py_file for py_file in filelist if py_file.endswith('.py'))
 
 def get_description(folder):
-    desc_regex = re.compile('#\s[D\d]escription:(\n(.*))\n')
+    desc_regex = re.compile('#\s[D\d]escription:(\n#(.*))+\n')
+    descriptions = []
 
     for file in walk_tree(folder):
         with open(file, 'rb') as python_reader:
@@ -18,8 +19,9 @@ def get_description(folder):
             match = desc_regex.search(contents)
 
             if not match:
-                raise SyntaxError(" # Description")
-            print match.group(0).splitlines()[1:]
+                raise SyntaxError(" # Description not found in file: %s" % file)
+            descriptions.append(match.group(0).splitlines()[1:])
+    return descriptions
 
 if __name__ == "__main__":
     folders = (os.path.abspath(name) for name in os.listdir(".") if os.path.isdir(name))
