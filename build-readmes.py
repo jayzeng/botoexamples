@@ -9,6 +9,9 @@ class BotoMarkdown():
     def __init__(self, filename):
         self.fh = open(filename, 'w')
 
+    def build_title(self, filepath):
+        self.fh.write("# %s\n" % " ".join(filepath.split("/")[-1].split(".")[0].split("_")))
+
     def build_description(self, filepath):
         lines = []
         for line in checker.get_description(file):
@@ -32,5 +35,6 @@ if __name__ == "__main__":
             markdown_filename = "%s.md" % file.rstrip(".py")
             md_file = open(markdown_filename, 'w')
             b = BotoMarkdown(markdown_filename)
+            b.build_title(file)
             b.build_description(file)
             b.build_code_example(file)
