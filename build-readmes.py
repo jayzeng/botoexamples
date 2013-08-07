@@ -31,6 +31,12 @@ class BotoMarkdown():
             code.append("```")
             self.fh.write("\n".join(code))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.fh.close()
+
 
 if __name__ == "__main__":
     folders = (os.path.abspath(name) for name in os.listdir(".") if os.path.isdir(name))
@@ -39,7 +45,7 @@ if __name__ == "__main__":
             print "processing %s" % file
             markdown_filename = "%s.md" % file.rstrip(".py")
             md_file = open(markdown_filename, 'w')
-            b = BotoMarkdown(markdown_filename)
-            b.build_title(file)
-            b.build_description(file)
-            b.build_code_example(file)
+            with BotoMarkdown(markdown_filename) as b:
+                b.build_title(file)
+                b.build_description(file)
+                b.build_code_example(file)
