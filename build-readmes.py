@@ -16,7 +16,12 @@ class BotoMarkdown():
         self.fh.write("\n".join(lines))
 
     def build_code_example(self, filepath):
-        return None
+        description_lines = checker.get_description(file)
+        with open(filepath, 'rb') as lines:
+            code = [line.rstrip("\n") for line in lines if line.rstrip('\n') not in description_lines]
+            code.insert(0, "\n```python")
+            code.append("```")
+            self.fh.write("\n".join(code))
 
 
 if __name__ == "__main__":
