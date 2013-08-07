@@ -1,9 +1,12 @@
-"""
-BootstrapAction is an object reperesenting a bootstrap action in Elastic Map
-Reduce (EMR), a script that gets run before the EMR job executes.
-"""
+# Description:
+# BootstrapAction is an object reperesenting a bootstrap action in Elastic Map
+# Reduce (EMR), a script that gets run before the EMR job executes.
 from boto.emr.bootstrap_action import BootstrapAction
 from boto.emr.connection import EmrConnection
+
+# Description:
+# BootstrapAction is an object reperesenting a bootstrap action in Elastic Map
+# Reduce (EMR), a script that gets run before the EMR job executes.
 
 # initialize a bootstrap action
 bootstrapSetup = BootstrapAction("Bootstrap Name",
