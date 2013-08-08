@@ -47,5 +47,5 @@ if __name__ == "__main__":
     for folder in folders:
         for file in checker.walk_tree(folder):
             print "processing %s" % file
-            markdown_filename = "%s.md" % file.rstrip(".py")
+            markdown_filename = "%s.md" % file.split('.')[0]
             BotoMarkdownBuilder.build(markdown_filename, file)
