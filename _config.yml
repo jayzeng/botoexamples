@@ -1,0 +1,4 @@
+name: Best Boto Examples
+markdown: rdiscount
+pygments: true
+baseurl: /botoexamples
