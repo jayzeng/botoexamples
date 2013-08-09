@@ -46,7 +46,12 @@ class BotoMarkdownBuilder(object):
 if __name__ == "__main__":
     folders = (os.path.abspath(name) for name in os.listdir(".") if os.path.isdir(name))
     for folder in folders:
-        for file in checker.walk_tree(folder):
+        for file in checker.walk_tree(folder, ".md"):
+            if not file.endswith("README.md"):
+                print "removing markdown file %s" % file
+                os.remove(file)
+
+        for file in checker.walk_tree(folder, ".py"):
             print "processing %s" % file
             markdown_filename = "%s.md" % file.split('.')[0]
             BotoMarkdownBuilder.build(markdown_filename, file)
