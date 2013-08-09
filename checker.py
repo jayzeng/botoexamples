@@ -10,13 +10,12 @@ import re
 DESCRIPTION_REGEX = '#\s[D\d]escription:(\n#(.*))+\n'
 
 
-def walk_tree(folder_name):
+def walk_tree(folder_name, ext):
     """
     Retrieve all python files
     """
     for path, diralist, filelist in os.walk(folder_name):
-        return (path + '/' + py_file for py_file in filelist if py_file.endswith('.py'))
-
+        return (path + '/' + py_file for py_file in filelist if py_file.endswith(ext))
 
 def get_description(file):
     desc_regex = re.compile(DESCRIPTION_REGEX)
