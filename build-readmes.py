@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 A script to build up a markdown file from python source code
 """
