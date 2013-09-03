@@ -2,18 +2,24 @@
 
 <p>BootstrapAction is an object reperesenting a bootstrap action in Elastic Map
 Reduce (EMR), a script that gets run before the EMR job executes.</p>
-<div class="highlight"><pre><code class="python language-python" data-lang="python"><span class="kn">from</span> <span class="nn">boto.emr.bootstrap_action</span> <span class="kn">import</span> <span class="n">BootstrapAction</span>
-<span class="kn">from</span> <span class="nn">boto.emr.connection</span> <span class="kn">import</span> <span class="n">EmrConnection</span>
 
+<p>```python
+from boto.emr.bootstrap_action import BootstrapAction
+from boto.emr.connection import EmrConnection</p>
 
-<span class="c"># initialize a bootstrap action</span>
-<span class="n">bootstrapSetup</span> <span class="o">=</span> <span class="n">BootstrapAction</span><span class="p">(</span><span class="s">&quot;Bootstrap Name&quot;</span><span class="p">,</span>
-                                 <span class="s">&quot;s3://&lt;my-bucket&gt;/&lt;my-bootstrap-action&gt;&quot;</span><span class="p">,</span>
-                                 <span class="p">[</span><span class="s">&quot;arg1=hello&quot;</span><span class="p">,</span> <span class="s">&quot;arg2=world&quot;</span><span class="p">])</span>
+<h1>initialize a bootstrap action</h1>
 
-<span class="c"># initialize emr connection</span>
-<span class="n">emr_job</span> <span class="o">=</span> <span class="n">EmrConnection</span><span class="p">(</span><span class="s">&quot;&lt;aws-access-key-id&gt;&quot;</span><span class="p">,</span> <span class="s">&quot;&lt;aws-secret-access-key&gt;&quot;</span><span class="p">)</span>
+<p>bootstrapSetup = BootstrapAction("Bootstrap Name",</p>
 
-<span class="c"># run emr job flow with defined bootstrap action</span>
-<span class="n">emr_job</span><span class="o">.</span><span class="n">run_jobflow</span><span class="p">(</span><span class="n">bootstrap_actions</span><span class="o">=</span><span class="p">[</span><span class="n">bootstrapSetup</span><span class="p">])</span>
-</code></pre></div>
+<pre><code>                             "s3://&lt;my-bucket&gt;/&lt;my-bootstrap-action&gt;",
+                             ["arg1=hello", "arg2=world"])
+</code></pre>
+
+<h1>initialize emr connection</h1>
+
+<p>emr_job = EmrConnection("<aws-access-key-id>", "<aws-secret-access-key>")</p>
+
+<h1>run emr job flow with defined bootstrap action</h1>
+
+<p>emr_job.run_jobflow(bootstrap_actions=[bootstrapSetup])
+```</p>

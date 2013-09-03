@@ -1,0 +1,46 @@
+<h1>instance group</h1>
+
+<p>The InstanceGroup object can be useful for customizing
+the nodes of an EMR(Elastic Map Reduce) job.</p>
+
+<p>```python
+from boto.emr.connection import EmrConnection
+from boto.emr.instance_group import InstanceGroup</p>
+
+<h1>build up our instance groups</h1>
+
+<p>namenode_instance_group = InstanceGroup(num_instances=1,</p>
+
+<pre><code>                                    role="MASTER",
+                                    type="c1.xlarge",
+                                    market="ON_DEMAND",
+                                    name="MASTER_GROUP")
+</code></pre>
+
+<p>core_nodes = InstanceGroup(num_instances=20,</p>
+
+<pre><code>                       role="MASTER",
+                       type="c1.xlarge",
+                       market="SPOT",
+                       name="MASTER_GROUP")
+</code></pre>
+
+<p>task_nodes = InstanceGroup(num_instances=10,</p>
+
+<pre><code>                       role="TASK",
+                       type="c1.xlarge",
+                       market="ON_DEMAND",
+                       name="INITIAL_TASK_GROUP")
+</code></pre>
+
+<p>instance_groups = [namenode_instance_group, core_nodes, task_nodes]</p>
+
+<h1>run the job</h1>
+
+<p>conn = EmrConnection("<aws-access-key-id>", "<aws-secret-access-key>")
+conn.run_jobflow(name="My Job Flow",</p>
+
+<pre><code>             instance_groups=instance_groups)
+</code></pre>
+
+<p>```</p>
